@@ -21,3 +21,16 @@ after_success:
   - docker push youngsingtan/multi-nginx
   - docker push youngsingtan/multi-server
   - docker push youngsingtan/multi-worker
+
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: southeast-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-ap-southeast-1-648972008149
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
