@@ -23,7 +23,6 @@ after_success:
   - docker push youngsingtan/multi-worker
 
 deploy:
-  edge: true
   provider: elasticbeanstalk
   region: southeast-1
   app: multi-docker
