@@ -1,38 +1,30 @@
 {
   "AWSEBDockerrunVersion": 2,
-  "volumes": [
-    {
-      "name": "php-app",
-      "host": {
-        "sourcePath": "/var/app/current/php-app"
-      }
-    },
-    {
-      "name": "nginx-proxy-conf",
-      "host": {
-        "sourcePath": "/var/app/current/proxy/conf.d"
-      }
-    }
-  ],
   "containerDefinitions": [
     {
-      "name": "php-app",
-      "image": "php:fpm",
-      "essential": true,
-      "memory": 128,
-      "mountPoints": [
-        {
-          "sourceVolume": "php-app",
-          "containerPath": "/var/www/html",
-          "readOnly": true
-        }
-      ]
+      "name": "client",
+      "image": "youngsingtan/multi-client",
+      "hostname": "client",
+      "memory": 128
     },
     {
-      "name": "nginx-proxy",
-      "image": "nginx",
-      "essential": true,
+      "name": "server",
+      "image": "youngsingtan/multi-server",
+      "hostname": "api",
+      "memory": 128
+    },
+    {
+      "name": "worker",
+      "image": "youngsingtan/multi-worker",
+      "hostname": "worker",
+      "memory": 128
+    },
+    {
+      "name": "nginx",
+      "image": "youngsingtan/multi-nginx",
+      "hostname": "nginx",
       "memory": 128,
+      "essential": true,
       "portMappings": [
         {
           "hostPort": 80,
@@ -40,23 +32,8 @@
         }
       ],
       "links": [
-        "php-app"
-      ],
-      "mountPoints": [
-        {
-          "sourceVolume": "php-app",
-          "containerPath": "/var/www/html",
-          "readOnly": true
-        },
-        {
-          "sourceVolume": "awseb-logs-nginx-proxy",
-          "containerPath": "/var/log/nginx"
-        },
-        {
-          "sourceVolume": "nginx-proxy-conf",
-          "containerPath": "/etc/nginx/conf.d",
-          "readOnly": true
-        }
+        "client",
+        "server"
       ]
     }
   ]
