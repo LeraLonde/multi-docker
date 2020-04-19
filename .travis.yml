@@ -6,10 +6,10 @@ services:
 deploy:
   edge: true
   provider: elasticbeanstalk
-  region: ap-southeast-1
+  region: us-west-1
   app: multi-docker
   env: MultiDocker-env
-  bucket_name: elasticbeanstalk-ap-southeast-1-648972008149
+  bucket_name: elasticbeanstalk-us-west-1-648972008149
   bucket_path: docker-multi
   on:
     branch: master
